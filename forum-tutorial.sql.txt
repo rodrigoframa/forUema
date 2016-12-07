@@ -1,0 +1,220 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.1
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Tempo de geração: 06/12/2016 às 16:49
+-- Versão do servidor: 10.1.19-MariaDB
+-- Versão do PHP: 5.5.38
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Banco de dados: `forum-tutorial`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `categories`
+--
+
+CREATE TABLE `categories` (
+  `cat_id` int(3) UNSIGNED NOT NULL,
+  `category_title` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Fazendo dump de dados para tabela `categories`
+--
+
+INSERT INTO `categories` (`cat_id`, `category_title`) VALUES
+(1, 'Dicas de Lanchonetes'),
+(2, 'Jogos'),
+(3, 'Linguagem de Programacao');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `replies`
+--
+
+CREATE TABLE `replies` (
+  `reply_id` int(3) UNSIGNED NOT NULL,
+  `category_id` int(3) UNSIGNED NOT NULL,
+  `subcategory_id` int(3) UNSIGNED NOT NULL,
+  `topic_id` int(3) UNSIGNED NOT NULL,
+  `author` varchar(16) NOT NULL,
+  `comment` mediumtext NOT NULL,
+  `date_posted` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Fazendo dump de dados para tabela `replies`
+--
+
+INSERT INTO `replies` (`reply_id`, `category_id`, `subcategory_id`, `topic_id`, `author`, `comment`, `date_posted`) VALUES
+(5, 1, 2, 10, 'niki', 'vou visita e dou um feedback!', '2016-12-06'),
+(6, 2, 4, 8, 'niki', 'qual a melhor posição e os herois para iniciantes?', '2016-12-06'),
+(7, 1, 1, 13, 'cams', 'eu já não gosto', '2016-12-06'),
+(8, 3, 6, 12, 'cams', 'prefiro c#', '2016-12-06'),
+(9, 2, 4, 8, 'cams', 'para iniciante é melhor suporte e heróis com scape. ', '2016-12-06');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `subcategories`
+--
+
+CREATE TABLE `subcategories` (
+  `subcat_id` int(3) UNSIGNED NOT NULL,
+  `parent_id` int(10) UNSIGNED NOT NULL,
+  `subcategory_title` varchar(128) NOT NULL,
+  `subcategory_desc` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Fazendo dump de dados para tabela `subcategories`
+--
+
+INSERT INTO `subcategories` (`subcat_id`, `parent_id`, `subcategory_title`, `subcategory_desc`) VALUES
+(1, 1, 'Comida Brasileira', 'Feijoada, Mocotó'),
+(2, 1, 'Lanches', 'Pizza, Hamburguer, Cachorro-quente, macarronada'),
+(3, 1, 'Comidas Orientais', 'Sushi, Niguiri, Sashimi'),
+(4, 2, 'Dota 2', 'Dicas de Farm, tipos de heróis'),
+(5, 2, 'CS GO', 'Campeonatos, skins '),
+(6, 3, 'Java', 'Programação Orientada a Objetos, Servelet, Applet'),
+(7, 3, 'php', 'Php 5, Php 7, Orientação a objetos, Frameworks');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `topics`
+--
+
+CREATE TABLE `topics` (
+  `topic_id` int(8) UNSIGNED NOT NULL,
+  `category_id` int(3) UNSIGNED NOT NULL,
+  `subcategory_id` int(3) UNSIGNED NOT NULL,
+  `author` varchar(16) NOT NULL,
+  `title` varchar(128) NOT NULL,
+  `content` mediumtext NOT NULL,
+  `date_posted` date NOT NULL,
+  `views` int(5) UNSIGNED NOT NULL,
+  `replies` int(3) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Fazendo dump de dados para tabela `topics`
+--
+
+INSERT INTO `topics` (`topic_id`, `category_id`, `subcategory_id`, `author`, `title`, `content`, `date_posted`, `views`, `replies`) VALUES
+(8, 2, 4, 'rodrigo', 'Posições', 'Você pode jogar em 4 posições, Midlane, Carry, Support, e Offlane. ', '2016-12-06', 7, 0),
+(9, 3, 7, 'rodrigo', 'PHP 7', 'Php ainda é a linguagem mais utilizada na web.', '2016-12-06', 0, 0),
+(10, 1, 2, 'rodrigo', 'Alex Lanches', 'Uma macarronada muito boa, vale a pena visitar.', '2016-12-06', 3, 0),
+(11, 2, 5, 'niki', 'CAMPEONATO SLZ', 'Pessoal estou organizando um campeonato de CSGO aqui em slz, dependendo do numero de participantes a premiação poderá ser boa! ', '2016-12-06', 1, 0),
+(12, 3, 6, 'niki', 'Java x C#', 'Qual das duas é melhor para iniciantes? ', '2016-12-06', 3, 0),
+(13, 1, 1, 'niki', 'Feijoada da Uema', 'pense numa feijoada boa ! hehe ', '2016-12-06', 9, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` int(8) UNSIGNED NOT NULL,
+  `username` varchar(16) NOT NULL,
+  `password` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Fazendo dump de dados para tabela `users`
+--
+
+INSERT INTO `users` (`user_id`, `username`, `password`) VALUES
+(1, 'teste', '12'),
+(2, 'cams', '1234'),
+(3, 'user1', '1234'),
+(4, 'rodrigo', '12'),
+(5, 'rods', '1234'),
+(6, 'niki', '1234');
+
+--
+-- Índices de tabelas apagadas
+--
+
+--
+-- Índices de tabela `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`cat_id`);
+
+--
+-- Índices de tabela `replies`
+--
+ALTER TABLE `replies`
+  ADD PRIMARY KEY (`reply_id`),
+  ADD KEY `subcategory_id` (`subcategory_id`),
+  ADD KEY `topic_id` (`topic_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Índices de tabela `subcategories`
+--
+ALTER TABLE `subcategories`
+  ADD PRIMARY KEY (`subcat_id`);
+
+--
+-- Índices de tabela `topics`
+--
+ALTER TABLE `topics`
+  ADD PRIMARY KEY (`topic_id`),
+  ADD KEY `subcategory_id` (`subcategory_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Índices de tabela `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- AUTO_INCREMENT de tabelas apagadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `cat_id` int(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de tabela `replies`
+--
+ALTER TABLE `replies`
+  MODIFY `reply_id` int(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT de tabela `subcategories`
+--
+ALTER TABLE `subcategories`
+  MODIFY `subcat_id` int(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT de tabela `topics`
+--
+ALTER TABLE `topics`
+  MODIFY `topic_id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT de tabela `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
